@@ -850,6 +850,8 @@ with pkgs;
 
   ent = callPackage ../tools/misc/ent { };
 
+  exhibitor = callPackage ../servers/exhibitor { };
+
   f3 = callPackage ../tools/filesystems/f3 { };
 
   facter = callPackage ../tools/system/facter {
