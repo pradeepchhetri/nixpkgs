@@ -10,6 +10,14 @@ let
 
   '';
 
+  zookeeperConfig = ''
+    dataDir=${cfg.zkDataDir}
+    clientPort=${toString cfg.zkPort}
+    autopurge.purgeInterval=${toString cfg.zkPurgeInterval}
+    ${cfg.zkExtraConf}
+    ${cfg.zkServers}
+  '';
+
   s3Properties = ''
   com.netflix.exhibitor.s3.access-key-id="${if cfg.s3AccessKey then cfg.s3AccessKey else ""}"
   com.netflix.exhibitor.s3.access-secret-key="${if cfg.s3AccessSecretKey then cfg.s3AccessSecretKey else ""}"
@@ -116,12 +124,65 @@ let
         type = types.lines;
         default = ''
         log4j.rootLogger=INFO, console
-
         log4j.appender.console=org.apache.log4j.ConsoleAppender
         log4j.appender.console.layout=org.apache.log4j.PatternLayout
         log4j.appender.console.layout.ConversionPattern=%-5p %c %x %m [%t]%n
         '';
-        description = "Exhibitor logging configuration.";
+        description = ''
+          Exhibitor logging configuration.
+        '';
+      };
+
+      #### Zookeeper configuration
+
+      zkDataDir = mkOption {
+        type = types.path;
+        default = "/var/lib/zookeeper";
+        description = ''
+          Data directory for Zookeeper
+        '';
+      };
+
+      zkPort = mkOption {
+        default = 2181;
+        type = types.int;
+        description = ''
+          Zookeeper Client port.
+        '';
+      };
+
+      zkPurgeInterval = mkOption {
+        default = 1;
+        type = types.int;
+        description = ''
+          The time interval in hours for which the purge task has to be triggered.
+          Set to a positive integer (1 and above) to enable the auto purging.
+        '';
+      };
+
+      zkExtraConf = mkOption {
+        type = types.lines;
+        default = ''
+          initLimit=5
+          syncLimit=2
+          tickTime=2000
+        '';
+        description = ''
+          Extra configuration for Zookeeper.
+        '';
+      };
+
+      zkServers = mkOption {
+        default = "";
+        type = types.lines;
+        example = ''
+          server.0=host0:2888:3888
+          server.1=host1:2888:3888
+          server.2=host2:2888:3888
+        '';
+        description = ''
+          Zookeeper Quorum Servers.
+        '';
       };
 
       #### S3 related configuration for shared storage ####
