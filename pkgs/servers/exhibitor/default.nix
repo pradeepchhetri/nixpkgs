@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, makeWrapper, jre, zookeeper }:
+{ stdenv, fetchurl, makeWrapper, jre }:
 
 stdenv.mkDerivation rec {
   pname = "exhibitor";
@@ -11,8 +11,6 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [ makeWrapper ];
-
-  propagatedBuildInputs = [ zookeeper ];
 
   unpackPhase = ":";
 
