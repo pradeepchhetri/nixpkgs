@@ -19,8 +19,8 @@ let
   '';
 
   s3Properties = ''
-  com.netflix.exhibitor.s3.access-key-id="${if cfg.s3AccessKey then cfg.s3AccessKey else ""}"
-  com.netflix.exhibitor.s3.access-secret-key="${if cfg.s3AccessSecretKey then cfg.s3AccessSecretKey else ""}"
+    com.netflix.exhibitor.s3.access-key-id=${cfg.s3AccessKey}
+    com.netflix.exhibitor.s3.access-secret-key=${cfg.s3AccessSecretKey}
   '';
 
   configDir = pkgs.buildEnv {
@@ -206,7 +206,7 @@ let
 
       s3AccessKey = mkOption {
         type = types.nullOr types.str;
-        default = null;
+        default = "";
         description = ''
           AWS Access Key
         '';
@@ -214,7 +214,7 @@ let
 
       s3AccessSecretKey = mkOption {
         type = types.nullOr types.str;
-        default = null;
+        default = "";
         description = ''
           AWS Access Secret Key
         '';
