@@ -333,6 +333,8 @@ with pkgs;
 
   acct = callPackage ../tools/system/acct { };
 
+  acmetool = callPackage ../tools/admin/acmetool { };
+
   acoustidFingerprinter = callPackage ../tools/audio/acoustid-fingerprinter {
     ffmpeg = ffmpeg_1;
   };
